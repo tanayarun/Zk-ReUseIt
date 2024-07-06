@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import React from "react";
 import AuroraBackground from "../Components/UI/Aurora-background.jsx";
 import { NavLink } from "react-router-dom";
-import logo from '../assets/push.svg'
+import logo from "../assets/push.svg";
+import  HoverBorderGradient  from "../Components/UI/Hover-border-gradient.jsx"
 
 export function AuroraBackgroundDemo() {
   return (
@@ -23,18 +24,23 @@ export function AuroraBackgroundDemo() {
           Zk-ReUseIt
         </div>
         <div className="font-extralight text-base md:text-4xl text-neutral-200 py-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum officiis quisquam
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+          officiis quisquam
         </div>
-        <NavLink
-          to="/app"
-          type="button"
-          className="bg-white rounded-full w-fit text-black px-4 py-2"
-        >
-          Start
-        </NavLink>
+        <div className="flex justify-center text-center">
+          <NavLink to="/app">
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              as="button"
+              className="bg-black text-white flex items-center space-x-2 px-8 "
+            >
+              <span className="text-lg">Start</span>
+            </HoverBorderGradient>
+          </NavLink>
+        </div>
       </motion.div>
     </AuroraBackground>
   );
 }
 
-export default AuroraBackgroundDemo
+export default AuroraBackgroundDemo;
