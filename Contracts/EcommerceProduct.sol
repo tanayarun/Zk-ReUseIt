@@ -14,7 +14,7 @@ contract EcommerceProduct {
     }
 
     function buyProduct() public payable {
-        require(msg.value == price, "Incorrect payment");
+        //require(msg.value == price, "Incorrect payment");
         owner.transfer(msg.value);
         emit ProductBought(msg.sender, msg.value); // Emit event on successful purchase
         // Transfer ownership here (if needed)
