@@ -1,10 +1,9 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import pushLogo from "./assets/push.svg";
-
 import "./App.css";
- import { ethers } from "ethers";
-
+import { ethers } from "ethers";
 import counterAbi from "./abis/counterAbi.json";
+
 const contractAddress = "0x312319c3f8311EbFca17392c7A5Fef674a48Fa72";
 
 function App() {
@@ -15,35 +14,79 @@ function App() {
 
   const connectWallet = async () => {
     if (!window.ethereum) {
-      console.error("MEtamask not detected, pls download it");
+      console.error("MetaMask not detected, please download it");
     } else {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
-      setProvider(provider);
-      setSigner(signer);
-      setAddress(address);
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const address = await signer.getAddress();
+        setProvider(provider);
+        setSigner(signer);
+        setAddress(address);
+      } catch (err) {
+        console.error("Error connecting to MetaMask:", err);
+      }
+    }
+  };
+  
+
+  const disconnectWallet = async () => {
+    if (provider) {
+      await provider.send("wallet_requestPermissions", [{ eth_accounts: {} }]);
+      setProvider(null);
+      setSigner(null);
+      setAddress(null);
     }
   };
 
-  const disconnectWallet = async () => { 
-    await provider.send("wallet_revokePermissions", [{
-      eth_accounts: {}
-    }]);
-
-    setProvider(null);
-    setSigner(null);
-    setAddress(null);
+  const switchChain = async (chainId) => {
+    if (provider) {
+      try {
+        await provider.send("wallet_switchEthereumChain", [{ chainId: ethers.utils.hexlify(chainId) }]);
+      } catch (err) {
+        console.error("Error switching chain:", err);
+      }
+    }
   };
 
-  const switchChain = async (chainId) => { };
+  const getCounter = async () => {
+    if (signer) {
+      try {
+        const contract = new ethers.Contract(contractAddress, counterAbi, signer);
+        const counter = await contract.getCounter();
+        setCount(counter.toNumber());
+      } catch (err) {
+        console.error("Error getting counter value:", err);
+      }
+    }
+  };
 
-  const getCounter = async () => { };
+  const incrementCounter = async () => {
+    if (signer) {
+      try {
+        const contract = new ethers.Contract(contractAddress, counterAbi, signer);
+        const tx = await contract.increment();
+        await tx.wait();
+        getCounter();
+      } catch (err) {
+        console.error("Error incrementing counter:", err);
+      }
+    }
+  };
 
-  const incrementCounter = async () => { };
-
-  const decrementCounter = async () => { };
+  const decrementCounter = async () => {
+    if (signer) {
+      try {
+        const contract = new ethers.Contract(contractAddress, counterAbi, signer);
+        const tx = await contract.decrement();
+        await tx.wait();
+        getCounter();
+      } catch (err) {
+        console.error("Error decrementing counter:", err);
+      }
+    }
+  };
 
   return (
     <>
@@ -65,7 +108,6 @@ function App() {
         <button onClick={() => switchChain(1)}>Switch to Mainnet</button>
         <button onClick={() => switchChain(11155111)}>Switch to Sepolia</button>
       </div>
-
       <div className="card">
         <div>
           <button onClick={getCounter}>Get Counter Value</button>
