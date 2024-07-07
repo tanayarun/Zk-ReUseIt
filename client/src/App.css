@@ -3,6 +3,7 @@
   padding: 0 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -56,4 +57,9 @@
   display: flex;
   justify-content: center;
   gap: 2rem;
+}
+
+.ha{
+  display: flex;
+  justify-content: center;
 }

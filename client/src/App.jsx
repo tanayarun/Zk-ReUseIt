@@ -2,7 +2,7 @@ import { useState } from "react";
 import pushLogo from "./assets/push.svg";
 
 import "./App.css";
-// import { ethers } from "ethers";
+ import { ethers } from "ethers";
 
 import counterAbi from "./abis/counterAbi.json";
 const contractAddress = "0x312319c3f8311EbFca17392c7A5Fef674a48Fa72";
@@ -50,7 +50,7 @@ function App() {
       <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
         <img src={pushLogo} className="logo" alt="Push logo" />
       </a>
-      <h1>Zk-ReUseIt</h1>
+      <h1 className="ha">Zk-ReUseIt</h1>
       <div className="wallet">
         {!address ? (
           <button onClick={connectWallet}>Connect Wallet</button>
