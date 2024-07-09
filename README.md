@@ -1,6 +1,6 @@
 Use this while connecting to smart contract --
 
-Contract address:0xC8CF29d9D1595a3588AD36E6349A0E9a5b632720 <br>
+Contract address:0xc2955A581b9481B8e56374dBf78adDA30D7dEc11 <br>
 abi key: [
 	{
 		"inputs": [],
@@ -225,3 +225,4 @@ abi key: [
 		"type": "function"
 	}
 ]
+	
