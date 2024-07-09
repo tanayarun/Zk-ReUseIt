@@ -16,6 +16,9 @@ contract Ecommerce6 {
         uint256 time;
         Item item;
     }
+    mapping(uint256 => Item) public items;
+    mapping(address => mapping(uint256 => Order)) public orders;
+    mapping(address => uint256) public orderCount;
 
 
     event Buy(address buyer, uint256 orderId, uint256 itemId);
