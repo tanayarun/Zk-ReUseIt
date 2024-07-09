@@ -39,7 +39,8 @@ contract Ecommerce6 {
         string memory _category,
         uint256 _cost,
         uint256 _rating
-    ) public onlyOwner {
+    ) public //onlyOwner 
+    {
         // Create Item
         Item memory item = Item(
             _id,
