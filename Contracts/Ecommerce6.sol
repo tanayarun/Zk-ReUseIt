@@ -24,10 +24,10 @@ contract Ecommerce6 {
     event Buy(address buyer, uint256 orderId, uint256 itemId);
     event List(string name, uint256 cost);
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can perform this action");
-        _;
-    }
+    // modifier onlyOwner() {
+    //     require(msg.sender == owner, "Only the owner can perform this action");
+    //     _;
+    // }
 
     constructor() {
         owner = msg.sender;
