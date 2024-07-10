@@ -24,11 +24,6 @@ contract Ecommerce6 {
     event Buy(address buyer, uint256 orderId, uint256 itemId);
     event List(string name, uint256 cost);
 
-    // modifier onlyOwner() {
-    //     require(msg.sender == owner, "Only the owner can perform this action");
-    //     _;
-    // }
-
     constructor() {
         owner = msg.sender;
     }
@@ -39,7 +34,7 @@ contract Ecommerce6 {
         string memory _category,
         uint256 _cost,
         uint256 _rating
-    ) public //onlyOwner 
+    ) public 
     {
         // Create Item
         Item memory item = Item(
@@ -75,8 +70,8 @@ contract Ecommerce6 {
         emit Buy(msg.sender, orderCount[msg.sender], item.id);
     }
 
-    // function withdraw() public onlyOwner {
-    //     (bool success, ) = owner.call{value: address(this).balance}("");
-    //     require(success, "Withdrawal failed");
-    // }
+    function withdraw() public  {
+        (bool success, ) = owner.call{value: address(this).balance}("");
+        require(success, "Withdrawal failed");
+    }
 }
