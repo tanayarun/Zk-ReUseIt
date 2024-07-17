@@ -46,12 +46,18 @@ const Navbaar = () => {
       console.error("Error disconnecting from MetaMask:", err);
     }
   };
+  const formatAddress = (address) => {
+    if (!address) return '';
+    const start = address.substring(0, 3);
+    const end = address.substring(address.length - 3);
+    return `${start}...${end}`;
+  };
 
   return (
     <div className='bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-lg backdrop-grayscale absolute top-0 right-0 text-white w-full h-[4rem]'>
       <div className='flex items-center justify-between px-[5rem] mt-2'>
         <div><img className="w-[40px]" src={logo} alt="" /></div>
-        
+        <div>
         {!address ? (
           <HoverBorderGradient
             containerClassName="rounded-full"
@@ -62,11 +68,17 @@ const Navbaar = () => {
             Connect Wallet
           </HoverBorderGradient>
         ) : (
-          <>
+            <HoverBorderGradient
+            containerClassName="rounded-full"
+            as="button"
+            className="bg-black text-white flex items-center space-x-12 px-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 bg-opacity-50"
+            onClick={connectWallet}
+          >
             <button onClick={disconnectWallet}>Disconnect Wallet</button>
-            <h3>Address: {address}</h3>
-          </>
+            <h3>Address: {formatAddress(address)}</h3>
+            </HoverBorderGradient>
         )}
+        </div>
       </div>
     </div>
   );
