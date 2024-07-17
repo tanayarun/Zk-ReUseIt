@@ -5,10 +5,14 @@ import AuroraBackground from "../Components/UI/Aurora-background.jsx";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/push.svg";
 import  HoverBorderGradient  from "../Components/UI/Hover-border-gradient.jsx"
+import Navbaar from "../Components/UI/Navbaar.jsx";
 
 export function AuroraBackgroundDemo() {
   return (
     <AuroraBackground>
+      <div className="z-50">
+        <Navbaar />
+      </div>
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -28,13 +32,13 @@ export function AuroraBackgroundDemo() {
           officiis quisquam
         </div>
         <div className="flex justify-center text-center">
-          <NavLink to="/app">
+          <NavLink to="/shop">
             <HoverBorderGradient
               containerClassName="rounded-full"
               as="button"
               className="bg-black text-white flex items-center space-x-2 px-8 "
             >
-              <span className="text-lg">Start</span>
+              <span className="text-lg">Go to shop</span>
             </HoverBorderGradient>
           </NavLink>
         </div>
