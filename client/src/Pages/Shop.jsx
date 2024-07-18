@@ -3,6 +3,7 @@ import shoes from '../assets/shoes.png';
 import cam from '../assets/cam.png';
 import sofa from '../assets/sofa.png';
 import Modal from '../Components/UI/Modal.jsx';
+import Navbaar from '../Components/UI/Navbaar.jsx';
 
 const Shop = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,7 +44,10 @@ const Shop = () => {
 
   return (
     <div className='bg-black h-full'>
-      <div className='text-white flex justify-center items-center pt-5 text-[2rem]'>Shop your fav products</div>
+      <div>
+        <Navbaar />
+      </div>
+      <div className='text-white flex justify-center items-center pt-5 text-[2rem] mt-10'>Shop your fav products</div>
       
       <div className='px-28 text-white text-[2rem] mb-5'>Footwear</div>
       <div className='px-8 flex justify-center items-center gap-12'>
