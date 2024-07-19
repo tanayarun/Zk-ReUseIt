@@ -3,6 +3,7 @@ import pushLogo from "./assets/push.svg";
 import "./App.css";
 import { ethers } from "ethers";
 import counterAbi from "./abis/counterAbi.json";
+import { NavLink } from "react-router-dom";
 
 const contractAddress = "0x312319c3f8311EbFca17392c7A5Fef674a48Fa72";
 
@@ -118,6 +119,12 @@ function App() {
           <button onClick={decrementCounter}>Decrement Counter</button>
         </div>
       </div>
+
+      <div className="flex justify-center text-center">
+          <NavLink to="/shop">
+              <span className="text-lg bg-black text-white py-2 px-4 rounded-lg">Go to shop!</span>
+          </NavLink>
+        </div>
     </>
   );
 }

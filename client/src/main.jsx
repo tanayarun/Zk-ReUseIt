@@ -9,12 +9,14 @@ import {
 } from "react-router-dom";
 import Homepg from "./Pages/Homepg.jsx"
 import App from "./App.jsx";
+import Shop from "./Pages/Shop.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="" element={<Homepg />} /> 
       <Route path="/app" element={<App />} /> 
+      <Route path="/shop" element={<Shop />} />
     </Route>
   )
 );
