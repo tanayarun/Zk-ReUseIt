@@ -104,27 +104,27 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "id",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "_name",
+				"name": "name",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_category",
+				"name": "category",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_cost",
+				"name": "cost",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_rating",
+				"name": "rating",
 				"type": "uint256"
 			}
 		],

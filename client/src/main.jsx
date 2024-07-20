@@ -11,6 +11,7 @@ import Homepg from "./Pages/Homepg.jsx"
 import App from "./App.jsx";
 import Shop from "./Pages/Shop.jsx";
 import Listing from "./Pages/Listing.jsx";
+import BuyItem from "./Pages/BuyItem.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="/app" element={<App />} /> 
       <Route path="/shop" element={<Shop />} />
       <Route path="/list" element={<Listing />} />
+      <Route path="/buy" element={<BuyItem />} />
     </Route>
   )
 );
