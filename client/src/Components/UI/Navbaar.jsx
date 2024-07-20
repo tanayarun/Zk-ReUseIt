@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import logo from "../../assets/push.svg";
 import { ethers } from "ethers";
 import HoverBorderGradient from "../../Components/UI/Hover-border-gradient";
@@ -19,7 +19,7 @@ const Navbaar = () => {
       }
 
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      await window.ethereum.request({ method: "eth_requestAccounts" });
       const signer = provider.getSigner();
       const address = await signer.getAddress();
 
@@ -38,16 +38,22 @@ const Navbaar = () => {
   };
 
   const formatAddress = (address) => {
-    if (!address) return '';
+    if (!address) return "";
     const start = address.substring(0, 3);
     const end = address.substring(address.length - 3);
     return `${start}...${end}`;
   };
 
   return (
-    <div className='bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-lg backdrop-grayscale absolute top-0 right-0 text-white w-full h-[4rem]'>
-      <div className='flex items-center justify-between px-[5rem] mt-2'>
-      <NavLink to="/"><img className="w-[40px]" src={logo} alt="Logo" /></NavLink>
+    <div className="bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-lg backdrop-grayscale absolute top-0 right-0 text-white w-full h-[4rem]">
+      <div className="flex items-center justify-between px-[5rem] mt-2">
+        <NavLink to="/">
+          <img className="w-[40px]" src={logo} alt="Logo" />
+        </NavLink>
+        <div className="flex justify-center items-center gap-6">
+        <NavLink to="/list">
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">List Item</button>
+        </NavLink>
         <div>
           {!address ? (
             <HoverBorderGradient
@@ -68,6 +74,7 @@ const Navbaar = () => {
               <h3>Address: {formatAddress(address)}</h3>
             </HoverBorderGradient>
           )}
+        </div>
         </div>
       </div>
     </div>
