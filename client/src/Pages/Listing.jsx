@@ -95,7 +95,8 @@ async function fetchItem(itemId) {
     setCost("");
     setRating("");
 
-    console.log("Form submitted");
+    console.log('Listing Successful');
+
   };
 
   return (
