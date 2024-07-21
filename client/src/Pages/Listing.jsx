@@ -14,7 +14,7 @@ const Listing = () => {
 
 
   const contractABI = MyContractABI;
-  const contractAddress = "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8";
+  const contractAddress = "0x3e8bfE7377dd7df1b98DeF3e8Ae68Bcf41d6465D";
 
   async function connectToMetamask() {
     if (window.ethereum) {
