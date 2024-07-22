@@ -86,11 +86,6 @@
 						"internalType": "uint256",
 						"name": "cost",
 						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "rating",
-						"type": "uint256"
 					}
 				],
 				"internalType": "struct ReUseIt.Item[]",
@@ -149,11 +144,6 @@
 				"internalType": "uint256",
 				"name": "cost",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "rating",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -179,11 +169,6 @@
 			{
 				"internalType": "uint256",
 				"name": "cost",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "rating",
 				"type": "uint256"
 			}
 		],
@@ -251,11 +236,6 @@
 					{
 						"internalType": "uint256",
 						"name": "cost",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "rating",
 						"type": "uint256"
 					}
 				],

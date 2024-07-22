@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
+
 pragma solidity ^0.8.9;
 
 contract ReUseIt {
@@ -9,7 +10,6 @@ contract ReUseIt {
         string name;
         string category;
         uint256 cost;
-        uint256 rating;
     }
 
     struct Order {
@@ -33,11 +33,10 @@ contract ReUseIt {
         uint256 id,
         string memory name,
         string memory category,
-        uint256 cost,
-        uint256 rating
+        uint256 cost
     ) public {
         // Create Item
-        Item memory item = Item(id, name, category, cost, rating);
+        Item memory item = Item(id, name, category, cost);
 
         // Add Item to mapping
         items[id] = item;

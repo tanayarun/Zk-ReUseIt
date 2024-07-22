@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import HoverBorderGradient from "../../Components/UI/Hover-border-gradient";
 import { NavLink } from "react-router-dom";
 
-const contractAddress = "0x312319c3f8311EbFca17392c7A5Fef674a48Fa72";
+const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
 
 const Navbaar = () => {
   const [address, setAddress] = useState(null);
