@@ -9,8 +9,6 @@ const Listing = () => {
   const [category, setCategory] = useState("");
   const [cost, setCost] = useState("");
   const [fetchId, setFetchId] = useState("");
-  const [fetchedItem, setFetchedItem] = useState(null);
-  const [allItems, setAllItems] = useState([]); // State for all items
 
   const contractABI = MyContractABI;
   const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
@@ -46,49 +44,6 @@ const Listing = () => {
       });
     } catch (error) {
       console.error("Error listing item:", error);
-    }
-  }
-
-  async function fetchItem(itemId) {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      const item = await contract.items(itemId);
-
-      // Process the fetched item
-      const processedItem = {
-        id: item.id.toString(),
-        name: item.name,
-        category: item.category,
-        cost: ethers.utils.formatEther(item.cost.toString())
-      };
-
-      setFetchedItem(processedItem);
-      console.log('Fetched Item:', processedItem);
-    } catch (error) {
-      console.error('Error fetching item:', error);
-    }
-  }
-
-  async function fetchAllItems() {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
-      const items = await contract.getAllItems();
-      console.log("All Items:", items);
-
-      // Process and structure the items array
-      const formattedItems = items.map(item => ({
-        id: item.id.toString(),
-        name: item.name,
-        category: item.category,
-        cost: ethers.utils.formatEther(item.cost.toString())
-      }));
-
-      setAllItems(formattedItems);
-    } catch (error) {
-      console.error('Error fetching all items:', error);
     }
   }
 
@@ -175,52 +130,6 @@ const Listing = () => {
           List Item
         </button>
       </form>
-
-      <div className="flex flex-col items-center gap-3 pt-20">
-        <input
-          type="text"
-          placeholder="Enter ID to fetch item"
-          value={fetchId}
-          onChange={(e) => setFetchId(e.target.value)}
-          className="peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-white outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-blue-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-        />
-        <button
-          type="button"
-          onClick={() => fetchItem(fetchId)}
-          className="w-40 inline-block rounded bg-blue-500 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)]">
-          Fetch Item
-        </button>
-        <button
-          type="button"
-          onClick={fetchAllItems}
-          className="w-40 inline-block rounded bg-blue-500 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)]">
-          Fetch All Items
-        </button>
-        <div className="pt-12">
-          {allItems.length > 0 && (
-            <div className="flex flex-col items-center gap-2">
-              <h2 className="text-xl text-white">All Items</h2>
-              {allItems.map((item) => (
-                <div key={item.id} className="text-white">
-                  <p>ID: {item.id}</p>
-                  <p>Name: {item.name}</p>
-                  <p>Category: {item.category}</p>
-                  <p>Cost: {item.cost} ETH</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        {fetchedItem && (
-          <div className="flex flex-col items-center gap-2 pt-12 pb-5">
-            <h2 className="text-xl text-white">Fetched Item Details</h2>
-            <p className="text-white">ID: {fetchedItem.id}</p>
-            <p className="text-white">Name: {fetchedItem.name}</p>
-            <p className="text-white">Category: {fetchedItem.category}</p>
-            <p className="text-white">Cost: {fetchedItem.cost} ETH</p>
-          </div>
-        )}
-      </div>
     </div>
   );
 };
