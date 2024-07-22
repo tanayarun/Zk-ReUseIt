@@ -1,136 +1,116 @@
-import React, { useState } from 'react';
-import shoes from '../assets/shoes.png';
-import cam from '../assets/cam.png';
-import sofa from '../assets/sofa.png';
-import Modal from '../Components/UI/Modal.jsx';
-import Navbaar from '../Components/UI/Navbaar.jsx';
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import MyContractABI from "../abis/abi.json";
+import Navbaar from "../Components/UI/Navbaar";
 
 const Shop = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState({});
+  const [searchName, setSearchName] = useState("");
+  const [fetchedItem, setFetchedItem] = useState(null);
+  const [allItems, setAllItems] = useState([]);
 
-  const handleOpenModal = (item) => {
-    setSelectedItem(item);
-    setIsModalOpen(true);
-  };
+  const contractABI = MyContractABI;
+  const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    fetchAllItems();
+  }, []);
 
-  const items = [
-    {
-      name: 'Shoes',
-      price: '0.25 ETH',
-      description: 'High-quality running shoes.',
-      deliveryDate: '5-7 business days',
-      imgSrc: shoes,
-    },
-    {
-      name: 'DSLR Camera',
-      price: '0.75 ETH',
-      description: 'High-definition DSLR camera for professional photography.',
-      deliveryDate: '7-10 business days',
-      imgSrc: cam,
-    },
-    {
-      name: 'Sofa',
-      price: '0.5 ETH',
-      description: 'Comfortable and stylish sofa.',
-      deliveryDate: '10-15 business days',
-      imgSrc: sofa,
+  async function fetchAllItems() {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+
+      const items = await contract.getAllItems();
+      const formattedItems = items.map(item => ({
+        id: item.id.toString(),
+        name: item.name,
+        category: item.category,
+        cost: ethers.utils.formatEther(item.cost.toString())
+      }));
+
+      setAllItems(formattedItems);
+    } catch (error) {
+      console.error('Error fetching all items:', error);
     }
-  ];
+  }
+
+  async function fetchItemByName(name) {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+
+      // Fetch all items first
+      const items = await contract.getAllItems();
+
+      // Find item by name
+      const item = items.find(item => item.name.toLowerCase() === name.toLowerCase());
+
+      if (item) {
+        const processedItem = {
+          id: item.id.toString(),
+          name: item.name,
+          category: item.category,
+          cost: ethers.utils.formatEther(item.cost.toString())
+        };
+        setFetchedItem(processedItem);
+        console.log('Fetched Item:', processedItem);
+      } else {
+        console.error('Item not found');
+        setFetchedItem(null); // Clear fetched item if not found
+      }
+    } catch (error) {
+      console.error('Error fetching item by name:', error);
+    }
+  }
+
+  async function handleSearch() {
+    if (searchName.trim() !== "") {
+      await fetchItemByName(searchName);
+    }
+  }
 
   return (
-    <div className='bg-black h-full'>
-      <div>
-        <Navbaar />
+    <div className="p-4">
+      <Navbaar />
+      <div className="pt-16 mb-4 flex justify-center items-center">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          className="peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-white outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-blue-500 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+        />
+        <button
+          type="button"
+          onClick={handleSearch}
+          className="ml-2 inline-block rounded bg-blue-500 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-lg transition duration-150 ease-in-out hover:bg-blue-600 hover:shadow-xl focus:bg-blue-600 focus:shadow-xl focus:outline-none active:bg-blue-700"
+        >
+          Search
+        </button>
       </div>
-      <div className='text-white flex justify-center items-center pt-5 text-[2rem] mt-10'>Shop your fav products</div>
-      
-      <div className='px-28 text-white text-[2rem] mb-5'>Footwear</div>
-      <div className='px-8 flex justify-center items-center gap-12'>
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[0])}>
-          <div>
-            <div><img className='w-80' src={shoes} alt="Shoes" /></div>
-            <div className='text-white flex justify-center items-center'>Shoes</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.25 ETH</div>
-          </div>
-        </div>
 
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[0])}>
-          <div>
-            <div><img className='w-80' src={shoes} alt="Shoes" /></div>
-            <div className='text-white flex justify-center items-center'>Shoes</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.25 ETH</div>
+      <div className="flex flex-wrap justify-center gap-4 pt-10">
+        {fetchedItem && (
+          <div className=" text-white bg-blue-800 p-6 rounded-lg shadow-lg max-w-sm">
+            <p className="text-lg">ID: {fetchedItem.id}</p>
+            <p className="text-lg">Name: {fetchedItem.name}</p>
+            <p className="text-lg">Category: {fetchedItem.category}</p>
+            <p className="text-lg">Cost: {fetchedItem.cost} ETH</p>
           </div>
-        </div>
-
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[0])}>
-          <div>
-            <div><img className='w-80' src={shoes} alt="Shoes" /></div>
-            <div className='text-white flex justify-center items-center'>Shoes</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.25 ETH</div>
+        )}
+        {allItems.length > 0 && !fetchedItem && (
+          <div className="flex flex-wrap justify-center gap-4">
+            {allItems.map((item) => (
+              <div key={item.id} className=" text-white bg-blue-800 p-6 rounded-lg shadow-lg max-w-sm">
+                <p className="text-lg">ID: {item.id}</p>
+                <p className="text-lg">Name: {item.name}</p>
+                <p className="text-lg">Category: {item.category}</p>
+                <p className="text-lg">Cost: {item.cost} ETH</p>
+              </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
-      
-      <div className='px-28 text-white text-[2rem] mb-5 mt-12'>Electronics</div>
-      <div className='px-8 flex justify-center items-center gap-12'>
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[1])}>
-          <div>
-            <div><img className='w-80 p-12' src={cam} alt="DSLR Camera" /></div>
-            <div className='text-white flex justify-center items-center'>DSLR Camera</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.75 ETH</div>
-          </div>
-        </div>
-
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[1])}>
-          <div>
-            <div><img className='w-80 p-12' src={cam} alt="DSLR Camera" /></div>
-            <div className='text-white flex justify-center items-center'>DSLR Camera</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.75 ETH</div>
-          </div>
-        </div>
-
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[1])}>
-          <div>
-            <div><img className='w-80 p-12' src={cam} alt="DSLR Camera" /></div>
-            <div className='text-white flex justify-center items-center'>DSLR Camera</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.75 ETH</div>
-          </div>
-        </div>
-      </div>
-      
-      <div className='px-28 text-white text-[2rem] mb-5 mt-12'>Furniture</div>
-      <div className='px-8 flex justify-center items-center gap-12'>
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[2])}>
-          <div>
-            <div><img className='w-80 p-12' src={sofa} alt="Sofa" /></div>
-            <div className='text-white flex justify-center items-center'>Sofa</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.5 ETH</div>
-          </div>
-        </div>
-
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[2])}>
-          <div>
-            <div><img className='w-80 p-12' src={sofa} alt="Sofa" /></div>
-            <div className='text-white flex justify-center items-center'>Sofa</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.5 ETH</div>
-          </div>
-        </div>
-
-        <div className='border rounded-xl w-80 cursor-pointer' onClick={() => handleOpenModal(items[2])}>
-          <div>
-            <div><img className='w-80 p-12' src={sofa} alt="Sofa" /></div>
-            <div className='text-white flex justify-center items-center'>Sofa</div>
-            <div className='text-white flex justify-center items-center mb-3'>0.5 ETH</div>
-          </div>
-        </div>
-      </div>
-      
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} item={selectedItem} />
     </div>
   );
 };

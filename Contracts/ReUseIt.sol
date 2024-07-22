@@ -77,5 +77,5 @@ contract ReUseIt {
             allItems[i] = items[itemIds[i]];
         }
         return allItems;
-    }
+    }   
 }
