@@ -6,6 +6,10 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/logo2.png";
 import  HoverBorderGradient  from "../Components/UI/Hover-border-gradient.jsx"
 import Navbaar from "../Components/UI/Navbaar.jsx";
+import TextGenerateEffect  from "../Components/TextGenerateEffect.jsx";
+import '../index.css'
+
+const words = `Harnessing the power of polygon zkEVM cardona and reclaim protocol`
 
 export function AuroraBackgroundDemo() {
   return (
@@ -28,7 +32,7 @@ export function AuroraBackgroundDemo() {
           Zk-ReUseIt
         </div> */}
         <div className="font-extralight text-base md:text-4xl text-neutral-200 py-4 ml-4">
-        Quality Pre-Owned Goods, Affordable Prices
+         <TextGenerateEffect words={words} />
         </div>
         <div className="flex justify-center text-center ml-4">
           <NavLink to="/shop">
