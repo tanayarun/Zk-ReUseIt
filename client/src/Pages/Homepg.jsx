@@ -8,6 +8,7 @@ import  HoverBorderGradient  from "../Components/UI/Hover-border-gradient.jsx"
 import Navbaar from "../Components/UI/Navbaar.jsx";
 import TextGenerateEffect  from "../Components/TextGenerateEffect.jsx";
 import '../index.css'
+import bg from "../assets/bg.png"
 import TextGenerateEffect2 from "../Components/TextGenerateEffect2.jsx";
 
 const words = `Harnessing the power of polygon zkEVM cardona and reclaim protocol`
@@ -30,6 +31,8 @@ export function AuroraBackgroundDemo() {
         }}
         className=" w-full flex flex-col gap-5 items-start justify-start ml-20 mb-8"
       >
+        <div className="flex mt-28 gap-10">
+          <div>
         <img className="w-[30rem]" src={logo} alt="" />
         {/* <div className="text-3xl md:text-7xl font-bold text-white text-center">
           Zk-ReUseIt
@@ -39,7 +42,7 @@ export function AuroraBackgroundDemo() {
          <TextGenerateEffect words={words3} />
          <TextGenerateEffect2 words={words} />
         </div>
-        <div className="flex justify-center text-center ml-4">
+        <div className="flex justify-start text-center ml-4 w-full">
           <NavLink to="/shop">
             <HoverBorderGradient
               containerClassName="rounded-full"
@@ -49,6 +52,10 @@ export function AuroraBackgroundDemo() {
               <span className="text-lg">Go to shop</span>
             </HoverBorderGradient>
           </NavLink>
+        </div>
+        </div>
+
+        <div className="z-50"><img className="z-50 w-[26rem]" src={bg} alt="" /></div>
         </div>
       </motion.div>
     </AuroraBackground>

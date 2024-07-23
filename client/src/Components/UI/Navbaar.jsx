@@ -54,10 +54,23 @@ const Navbaar = () => {
           <img className=" pl-5 w-[230px]" src={logo} alt="Logo" />
         </NavLink>
         <div className="flex justify-center items-center gap-6">
-          <NavLink to="/list">
-            <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              List Item
-            </button>
+        <NavLink to="/list">
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              as="button"
+              className="bg-indigo-800 text-white flex items-center space-x-1 px-6 text-sm  "
+            >
+              <span className="text-lg">List Item</span>
+            </HoverBorderGradient>
+          </NavLink>
+          <NavLink to="/shop">
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              as="button"
+              className="bg-indigo-800 text-white flex items-center space-x-1 px-6 text-sm "
+            >
+              <span className="text-lg">Go to shop</span>
+            </HoverBorderGradient>
           </NavLink>
           <div>
             {!address ? (
