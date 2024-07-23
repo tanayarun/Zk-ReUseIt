@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { cn } from "../Utils/cn";
 
-const TextGenerateEffect = ({ words, className, filter = true, duration = 0.5 }) => {
+const TextGenerateEffect2 = ({ words, className, filter = true, duration = 0.5 }) => {
   const [scope, animate] = useAnimate();
   const wordsArray = words.split(" ");
 
@@ -27,7 +27,7 @@ const TextGenerateEffect = ({ words, className, filter = true, duration = 0.5 })
         {wordsArray.map((word, idx) => (
           <motion.span
             key={word + idx}
-            className=" bebas-neue-regular bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.green.300),theme(colors.green.100),theme(colors.sky.400),theme(colors.yellow.200),theme(colors.sky.400),theme(colors.green.100),theme(colors.green.300))] bg-[length:200%_auto] animate-gradient antialiased text-5xl "
+            className="opacity-0 fonteko"
             style={{
               filter: filter ? "blur(10px)" : "none",
             }}
@@ -42,7 +42,7 @@ const TextGenerateEffect = ({ words, className, filter = true, duration = 0.5 })
   return (
     <div className={cn("font-bold", className)}>
       <div className="mt-4">
-        <div className="bebas-neue-regular bg-clip-text text-transparent bg-[linear-gradient(to_right,theme(colors.green.300),theme(colors.green.100),theme(colors.sky.400),theme(colors.yellow.200),theme(colors.sky.400),theme(colors.green.100),theme(colors.green.300))] bg-[length:200%_auto] animate-gradient antialiased text-xl">
+        <div className=" text-3xl leading-snug tracking-wide fonteko">
           {renderWords()}
         </div>
       </div>
@@ -50,4 +50,4 @@ const TextGenerateEffect = ({ words, className, filter = true, duration = 0.5 })
   );
 };
 
-export default TextGenerateEffect;
+export default TextGenerateEffect2;

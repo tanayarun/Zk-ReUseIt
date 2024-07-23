@@ -8,8 +8,11 @@ import  HoverBorderGradient  from "../Components/UI/Hover-border-gradient.jsx"
 import Navbaar from "../Components/UI/Navbaar.jsx";
 import TextGenerateEffect  from "../Components/TextGenerateEffect.jsx";
 import '../index.css'
+import TextGenerateEffect2 from "../Components/TextGenerateEffect2.jsx";
 
 const words = `Harnessing the power of polygon zkEVM cardona and reclaim protocol`
+const words2 = ` Buy second hand product,`
+const words3 = ` good as new in affordable prices`
 
 export function AuroraBackgroundDemo() {
   return (
@@ -32,7 +35,9 @@ export function AuroraBackgroundDemo() {
           Zk-ReUseIt
         </div> */}
         <div className="font-extralight text-base md:text-4xl text-neutral-200 py-4 ml-4">
-         <TextGenerateEffect words={words} />
+         <TextGenerateEffect words={words2} />
+         <TextGenerateEffect words={words3} />
+         <TextGenerateEffect2 words={words} />
         </div>
         <div className="flex justify-center text-center ml-4">
           <NavLink to="/shop">
