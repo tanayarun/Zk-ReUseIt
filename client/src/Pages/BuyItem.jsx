@@ -12,12 +12,12 @@ const BuyItem = () => {
 
   const [url, setUrl] = useState('')
   
-  const APP_ID = "0x895eB26Be424Ee73603aBE2dd2A178a5D7a3787B" //TODO: replace with your applicationId
+  const APP_ID = "0x2E077cAa343478Bd397615FcdF89CaF61CdCEA15" //TODO: replace with your applicationId
   const reclaimClient = new Reclaim.ProofRequest(APP_ID)
  
   async function generateVerificationRequest() {
     try {
-      const providerId = '1d270ba2-8680-415b-b7e2-2cebd47f6f02'; // Replace with actual providerId
+      const providerId = '1bba104c-f7e3-4b58-8b42-f8c0346cdeab'; // Replace with actual providerId
   
       reclaimClient.addContext(
         ('user\'s address'), // Replace with actual user address
@@ -27,7 +27,7 @@ const BuyItem = () => {
       await reclaimClient.buildProofRequest(providerId);
   
       const signature = await reclaimClient.generateSignature(
-        '0x2c3b6e25c1fd61396ddd973d029dcb8a559a8ecb22fc32e89e9539ee4bca64a4'
+        '0x6f3aaaa76e9ceab76d04949ce2bd047977c162a0234eaa5d1999ecd70cb7229e'
       );
       reclaimClient.setSignature(signature);
   
@@ -49,6 +49,46 @@ const BuyItem = () => {
       console.error('Error in generateVerificationRequest:', error);
     }
   }
+
+
+// Prototype
+
+
+// const getVerificationReq = async () => {
+//   const APP_ID = "0xe616742f289737681050cae4084e49E6847ddac6";
+//   const reclaimClient = new Reclaim.ProofRequest(APP_ID);
+
+//   const providerIds = [
+//   '5e1302ca-a3dd-4ef8-bc25-24fcc97dc800', // Aadhaar Card Date of Birth
+//   ];
+
+//   await reclaimClient.buildProofRequest(providerIds[0])
+
+//   const APP_SECRET ="0x8b6f43e1d1312dfbbc4c3ce82c59d1be7398c1d13b6f4de82c3e0b7b84cac5bb"  // your app secret key.
+//   reclaimClient.setSignature(
+//       await reclaimClient.generateSignature(APP_SECRET)
+//   )
+
+//   const { requestUrl, statusUrl } =
+//     await reclaimClient.createVerificationRequest()
+
+
+//   await reclaimClient.startSession({
+//     onSuccessCallback: proof => {
+//       console.log('Verification success', proof)
+//       // Your business logic here
+//     },
+//     onFailureCallback: error => {
+//       console.error('Verification failed', error)
+//       // Your business logic here to handle the error
+//     }
+//   })
+// };
+
+
+// call when user clicks on a button
+// onClick={getVerificationReq}
+
   async function handleQRCode() {
     try {
       console.log('URL before fetch:', url); // Check if `url` is a string
@@ -77,7 +117,7 @@ const BuyItem = () => {
     <div>
       <Navbaar />
 
-      <div  style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50vh" }}>
+      <div className="mt-24"  style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50vh" }}>
       {!url && (
         <button className="text-white" onClick={generateVerificationRequest}>
           Create Claim QrCode
