@@ -25,7 +25,11 @@ const Shop = () => {
     setLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        provider
+      );
 
       const items = await contract.getAllItems();
       const formattedItems = items.map((item) => ({
@@ -47,7 +51,11 @@ const Shop = () => {
     setLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        provider
+      );
 
       const items = await contract.getAllItems();
       const matchingItems = items
@@ -57,7 +65,11 @@ const Shop = () => {
           category: item.category,
           cost: ethers.utils.formatEther(item.cost.toString()),
         }))
-        .filter((item) => item.name.toLowerCase() === name.toLowerCase() && (selectedCategory === "" || item.category === selectedCategory));
+        .filter(
+          (item) =>
+            item.name.toLowerCase() === name.toLowerCase() &&
+            (selectedCategory === "" || item.category === selectedCategory)
+        );
 
       if (matchingItems.length > 0) {
         setFetchedItems(matchingItems);
@@ -78,7 +90,11 @@ const Shop = () => {
     setLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        provider
+      );
 
       const items = await contract.getAllItems();
       const filteredItems = items
@@ -172,6 +188,32 @@ const Shop = () => {
     }
   }
 
+  // Function to split the name and add description with reduced gap
+  function formatItemName(name) {
+    const [firstWord, ...rest] = name.split(" ");
+    const description = rest.join(" ");
+    return (
+      <>
+        <span
+          className="bg-gradient-to-r from-slate-300 to-slate-500 bg-clip-text text-transparent"
+          style={{ fontSize: "1.5rem", fontWeight: "bold" }}
+        >
+          {firstWord}
+        </span>
+        <br />
+        <span
+          className="pb-1 bg-gradient-to-r from-slate-300 to-slate-500 bg-clip-text text-transparent"
+          style={{ fontSize: "0.9rem", lineHeight: "1" }}
+        >
+          <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+            Description:
+          </span>{" "}
+          {description}
+        </span>
+      </>
+    );
+  }
+
   return (
     <div className="p-4">
       <Navbaar />
@@ -197,29 +239,15 @@ const Shop = () => {
           className="ml-2 rounded border border-blue-gray-200 bg-transparent px-3 py-2 rounded-lg text-sm font-normal text-white outline outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
         >
           <option value="" disabled>
-              Select a category
-            </option>
-            <option
-              value="Automobile"
-            >
-              Automobile
-            </option>
-            <option
-              value="Electronics"
-            >
-              Electronics
-            </option>
-            <option value="Furniture">Furniture</option>
-            <option
-              value="Action figures"
-            >
-              Action figures
-            </option>
-            <option
-              value="Vintage"
-            >
-              Vintage
-            </option>
+            Select a category
+          </option>
+          <option value="Automobile">Automobile</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Action figures">Action figures</option>
+          <option value="Vintage">Vintage</option>
+          <option value="Sports">Sports</option>
+          <option value="Others">Others</option>
         </select>
       </div>
 
@@ -237,7 +265,7 @@ const Shop = () => {
                   alt="Sample"
                   className="w-20 object-cover mb-4 rounded"
                 />
-                <p className="text-lg"> {item.name}</p>
+                {formatItemName(item.name)}
                 <p className="text-lg">Category: {item.category}</p>
                 <p className="text-lg mt-1">{item.cost} ETH</p>
                 <button
@@ -264,9 +292,16 @@ const Shop = () => {
                   alt="Sample"
                   className="w-20 object-cover mb-4 rounded"
                 />
-                <p className="text-lg"> {item.name}</p>
-                <p className="text-lg">Category: {item.category}</p>
-                <p className="text-lg mt-1">{item.cost} ETH</p>
+                {formatItemName(item.name)}
+                <p className="text-lg bg-gradient-to-r from-slate-300 to-slate-500 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+                    Category:
+                  </span>{" "}
+                  {item.category}
+                </p>
+                <p className="text-lg mt-1 bg-gradient-to-r from-slate-300 to-slate-500 bg-clip-text text-transparent">
+                  {item.cost} ETH
+                </p>
                 <button
                   onClick={() => buyItem(item.id, item.cost)}
                   className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"

@@ -142,6 +142,16 @@ const Listing = () => {
             >
               Vintage
             </option>
+            <option
+              value="Sports"
+            >
+              Sports
+            </option>
+            <option
+              value="Others"
+            >
+              Others
+            </option>
           </select>
         </div>
 
