@@ -151,7 +151,7 @@ const Shop = () => {
 
       <div className="flex flex-wrap justify-center gap-4 pt-10">
         {fetchedItem && (
-          <div className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm">
+          <div className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center">
             <img
               src={eth}
               alt="Sample"
@@ -159,8 +159,8 @@ const Shop = () => {
             />
             <p className="text-lg"> {fetchedItem.name}</p>
             <p className="text-lg">Category: {fetchedItem.category}</p>
-            <p className="text-lg">Cost: {fetchedItem.cost} ETH</p>
-            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3">
+            <p className="text-lg mt-1">{fetchedItem.cost} ETH</p>
+            <button onClick={() => buyItem(item.id, item.cost)} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3">
                   <span class="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Buy
                   </span>
@@ -168,11 +168,11 @@ const Shop = () => {
           </div>
         )}
         {allItems.length > 0 && !fetchedItem && (
-          <div className="grid grid-cols-4 gap-8 px-16">
+          <div className="grid grid-cols-3 gap-12 px-16">
             {allItems.map((item) => (
               <div
                 key={item.id}
-                className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm"
+                className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center"
               >
                 <img
                   src={eth}
@@ -181,8 +181,8 @@ const Shop = () => {
                 />
                 <p className="text-lg"> {item.name}</p>
                 <p className="text-lg">Category: {item.category}</p>
-                <p className="text-lg">Cost: {item.cost} ETH</p>
-                <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3">
+                <p className="text-lg mt-1">{item.cost} ETH</p>
+                <button onClick={() => buyItem(item.id, item.cost)} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3">
                   <span class="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Buy
                   </span>
