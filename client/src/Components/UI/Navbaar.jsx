@@ -3,6 +3,8 @@ import logo from "../../assets/push.svg";
 import { ethers } from "ethers";
 import HoverBorderGradient from "../../Components/UI/Hover-border-gradient";
 import { NavLink } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
 
@@ -35,12 +37,13 @@ const Navbaar = () => {
     setProvider(null);
     setSigner(null);
     setAddress(null);
+    toast.info("To completely logout, please disconnect from MetaMask browser extension.");
   };
 
   const formatAddress = (address) => {
     if (!address) return "";
-    const start = address.substring(0, 3);
-    const end = address.substring(address.length - 3);
+    const start = address.substring(0, 4);
+    const end = address.substring(address.length - 4);
     return `${start}...${end}`;
   };
 
@@ -51,35 +54,38 @@ const Navbaar = () => {
           <img className="w-[40px]" src={logo} alt="Logo" />
         </NavLink>
         <div className="flex justify-center items-center gap-6">
-        
-        <NavLink to="/buy">
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reclaim</button>
-        </NavLink>
-        
-        <NavLink to="/list">
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">List Item</button>
-        </NavLink>
-        <div>
-          {!address ? (
-            <HoverBorderGradient
-              containerClassName="rounded-full"
-              as="button"
-              className="bg-black text-white flex items-center space-x-12 px-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 bg-opacity-50"
-              onClick={connectWallet}
-            >
-              Connect Wallet
-            </HoverBorderGradient>
-          ) : (
-            <HoverBorderGradient
-              containerClassName="rounded-full"
-              as="div"
-              className="bg-black text-white flex items-center space-x-12 px-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 bg-opacity-50"
-            >
-              <button onClick={disconnectWallet}>Disconnect Wallet</button>
-              <h3>Address: {formatAddress(address)}</h3>
-            </HoverBorderGradient>
-          )}
-        </div>
+          <NavLink to="/buy">
+            <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Reclaim
+            </button>
+          </NavLink>
+          <NavLink to="/list">
+            <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              List Item
+            </button>
+          </NavLink>
+          <div>
+            {!address ? (
+              <HoverBorderGradient
+                containerClassName="rounded-full"
+                as="button"
+                className="bg-black text-white flex items-center space-x-12 px-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 bg-opacity-50"
+                onClick={connectWallet}
+              >
+                Connect Wallet
+              </HoverBorderGradient>
+            ) : (
+              <HoverBorderGradient
+                containerClassName="rounded-full"
+                as="div"
+                className="bg-black text-white flex items-center space-x-12 px-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 bg-opacity-50"
+              >
+                <button onClick={disconnectWallet}>
+                  {formatAddress(address)}
+                </button>
+              </HoverBorderGradient>
+            )}
+          </div>
         </div>
       </div>
     </div>
