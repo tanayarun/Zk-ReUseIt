@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import MyContractABI from "../abis/abi.json";
 import Navbaar from "../Components/UI/Navbaar";
-import ModalTSuccess from "../Components/UI/Modal";
+import ModalTSuccess from "../Components/ModalTSuccess";
 import eth from '../assets/eth.png'
+import '../index.css'
+
 
 const contractABI = MyContractABI;
 const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
@@ -136,10 +138,9 @@ const Shop = () => {
 
       <div className="flex flex-wrap justify-center gap-4 pt-10">
         {fetchedItem && (
-          <div className="text-white bg-blue-800 p-6 rounded-lg shadow-lg max-w-sm">
-            <img src="https://via.placeholder.com/150" alt="Sample" className="w-full h-40 object-cover mb-4 rounded" />
-            <p className="text-lg">ID: {fetchedItem.id}</p>
-            <p className="text-lg">Name: {fetchedItem.name}</p>
+          <div className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm">
+            <img src={eth} alt="Sample" className="w-20 object-cover mb-4 rounded" />
+            <p className="text-lg"> {fetchedItem.name}</p>
             <p className="text-lg">Category: {fetchedItem.category}</p>
             <p className="text-lg">Cost: {fetchedItem.cost} ETH</p>
             <button
@@ -151,12 +152,12 @@ const Shop = () => {
           </div>
         )}
         {allItems.length > 0 && !fetchedItem && (
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="grid grid-cols-4 gap-8 px-16">
             {allItems.map((item) => (
-              <div key={item.id} className="text-white bg-blue-800 p-6 rounded-lg shadow-lg max-w-sm">
+              <div key={item.id} className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm">
                 <img src={eth} alt="Sample" className="w-20 object-cover mb-4 rounded" />
-                <p className="text-lg">ID: {item.id}</p>
-                <p className="text-lg">Name: {item.name}</p>
+
+                <p className="text-lg"> {item.name}</p>
                 <p className="text-lg">Category: {item.category}</p>
                 <p className="text-lg">Cost: {item.cost} ETH</p>
                 <button
