@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import MyContractABI from "../abis/abi.json";
 import Navbaar from "../Components/UI/Navbaar";
 
@@ -8,7 +10,7 @@ const Listing = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [cost, setCost] = useState("");
-  const [fetchId, setFetchId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const contractABI = MyContractABI;
   const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
@@ -42,27 +44,31 @@ const Listing = () => {
       contract.on("List", (name, cost) => {
         console.log(`Item listed: Name = ${name}, Cost = ${cost}`);
       });
+
+      toast.success("Item listed successfully!");
     } catch (error) {
       console.error("Error listing item:", error);
+      toast.error("Error listing item: " + error.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     await listItem(listingId, name, category, cost);
 
     setListingId("");
     setName("");
     setCategory("");
     setCost("");
-
-    console.log('Listing Successful');
   };
 
   return (
     <div>
       <Navbaar />
+      <ToastContainer />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-5 justify-center items-center pt-20"
@@ -126,8 +132,10 @@ const Listing = () => {
 
         <button
           type="submit"
-          className="w-40 inline-block rounded bg-blue-500 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)]">
-          List Item
+          disabled={isLoading}
+          className={`w-40 inline-block rounded bg-blue-500 px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out ${isLoading ? 'cursor-not-allowed opacity-50' : 'hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.3),0_4px_18px_0_rgba(0,0,0,0.2)]'}`}
+        >
+          {isLoading ? 'Listing...' : 'List Item'}
         </button>
       </form>
     </div>

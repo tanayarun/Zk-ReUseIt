@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import MyContractABI from "../abis/abi.json";
 import Navbaar from "../Components/UI/Navbaar";
-import ModalTSuccess from "../Components/ModalTSuccess";
-import eth from '../assets/eth.png'
-import '../index.css'
-
+import eth from '../assets/eth.png';
+import '../index.css';
 
 const contractABI = MyContractABI;
 const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
@@ -14,8 +14,6 @@ const Shop = () => {
   const [searchName, setSearchName] = useState("");
   const [fetchedItem, setFetchedItem] = useState(null);
   const [allItems, setAllItems] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     fetchAllItems();
@@ -37,6 +35,7 @@ const Shop = () => {
       setAllItems(formattedItems);
     } catch (error) {
       console.error('Error fetching all items:', error);
+      toast.error('Error fetching all items');
     }
   }
 
@@ -45,10 +44,7 @@ const Shop = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
-      // Fetch all items first
       const items = await contract.getAllItems();
-
-      // Find item by name
       const item = items.find(item => item.name.toLowerCase() === name.toLowerCase());
 
       if (item) {
@@ -62,10 +58,12 @@ const Shop = () => {
         console.log('Fetched Item:', processedItem);
       } else {
         console.error('Item not found');
-        setFetchedItem(null); // Clear fetched item if not found
+        setFetchedItem(null);
+        toast.error('Item not found');
       }
     } catch (error) {
       console.error('Error fetching item by name:', error);
+      toast.error('Error fetching item by name');
     }
   }
 
@@ -84,9 +82,11 @@ const Shop = () => {
         return signer;
       } catch (error) {
         console.error("User denied account access");
+        toast.error("User denied account access");
       }
     } else {
       console.error("Metamask is not installed");
+      toast.error("Metamask is not installed");
     }
   }
 
@@ -103,22 +103,21 @@ const Shop = () => {
       const receipt = await tx.wait();
       console.log("Transaction mined:", receipt);
 
-      // Show success message in modal
-      setModalMessage("Transaction successful!");
-      setIsModalOpen(true);
+      toast.success("Transaction successful!");
 
-      // Listen for the Buy event
       contract.on("Buy", (buyer, orderId, itemId) => {
         console.log(`Item bought: Buyer = ${buyer}, Order ID = ${orderId}, Item ID = ${itemId}`);
       });
     } catch (error) {
       console.error("Error buying item:", error.message);
+      toast.error("Error buying item: " + error.message);
     }
   }
 
   return (
     <div className="p-4">
       <Navbaar />
+      <ToastContainer />
       <div className="pt-16 mb-4 flex justify-center items-center">
         <input
           type="text"
@@ -156,7 +155,6 @@ const Shop = () => {
             {allItems.map((item) => (
               <div key={item.id} className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm">
                 <img src={eth} alt="Sample" className="w-20 object-cover mb-4 rounded" />
-
                 <p className="text-lg"> {item.name}</p>
                 <p className="text-lg">Category: {item.category}</p>
                 <p className="text-lg">Cost: {item.cost} ETH</p>
@@ -171,8 +169,6 @@ const Shop = () => {
           </div>
         )}
       </div>
-
-      <ModalTSuccess isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} message={modalMessage} />
     </div>
   );
 };
