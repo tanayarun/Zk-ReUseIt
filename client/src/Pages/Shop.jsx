@@ -14,12 +14,14 @@ const Shop = () => {
   const [searchName, setSearchName] = useState("");
   const [fetchedItem, setFetchedItem] = useState(null);
   const [allItems, setAllItems] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
     fetchAllItems();
   }, []);
 
   async function fetchAllItems() {
+    setLoading(true); // Set loading state to true
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(
@@ -41,9 +43,11 @@ const Shop = () => {
       console.error("Error fetching all items:", error);
       toast.error("Error fetching all items");
     }
+    setLoading(false); // Set loading state to false
   }
 
   async function fetchItemByName(name) {
+    setLoading(true); // Set loading state to true
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(
@@ -75,6 +79,7 @@ const Shop = () => {
       console.error("Error fetching item by name:", error);
       toast.error("Error fetching item by name");
     }
+    setLoading(false); // Set loading state to false
   }
 
   async function handleSearch() {
@@ -150,7 +155,10 @@ const Shop = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 pt-10">
-        {fetchedItem && (
+        {loading && (
+          <span className="loader "></span>
+        )}
+        {!loading && fetchedItem && (
           <div className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center">
             <img
               src={eth}
@@ -160,14 +168,14 @@ const Shop = () => {
             <p className="text-lg"> {fetchedItem.name}</p>
             <p className="text-lg">Category: {fetchedItem.category}</p>
             <p className="text-lg mt-1">{fetchedItem.cost} ETH</p>
-            <button onClick={() => buyItem(item.id, item.cost)} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3">
-                  <span class="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Buy
-                  </span>
-                </button>
+            <button onClick={() => buyItem(fetchedItem.id, fetchedItem.cost)} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3">
+              <span class="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                Buy
+              </span>
+            </button>
           </div>
         )}
-        {allItems.length > 0 && !fetchedItem && (
+        {!loading && allItems.length > 0 && !fetchedItem && (
           <div className="grid grid-cols-3 gap-12 px-16">
             {allItems.map((item) => (
               <div
