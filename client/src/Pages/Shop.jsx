@@ -12,7 +12,8 @@ const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
 
 const Shop = () => {
   const [searchName, setSearchName] = useState("");
-  const [fetchedItems, setFetchedItems] = useState([]); // Changed from a single item to an array
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [fetchedItems, setFetchedItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -24,11 +25,7 @@ const Shop = () => {
     setLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        provider
-      );
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
       const items = await contract.getAllItems();
       const formattedItems = items.map((item) => ({
@@ -50,11 +47,7 @@ const Shop = () => {
     setLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        provider
-      );
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
       const items = await contract.getAllItems();
       const matchingItems = items
@@ -64,7 +57,7 @@ const Shop = () => {
           category: item.category,
           cost: ethers.utils.formatEther(item.cost.toString()),
         }))
-        .filter((item) => item.name.toLowerCase() === name.toLowerCase());
+        .filter((item) => item.name.toLowerCase() === name.toLowerCase() && (selectedCategory === "" || item.category === selectedCategory));
 
       if (matchingItems.length > 0) {
         setFetchedItems(matchingItems);
@@ -81,9 +74,56 @@ const Shop = () => {
     setLoading(false);
   }
 
+  async function fetchItemsByCategory(category) {
+    setLoading(true);
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+
+      const items = await contract.getAllItems();
+      const filteredItems = items
+        .map((item) => ({
+          id: item.id.toString(),
+          name: item.name,
+          category: item.category,
+          cost: ethers.utils.formatEther(item.cost.toString()),
+        }))
+        .filter((item) => item.category === category);
+
+      if (filteredItems.length > 0) {
+        setFetchedItems(filteredItems);
+        console.log("Fetched Items by Category:", filteredItems);
+      } else {
+        console.error("Items not found for category");
+        setFetchedItems([]);
+        toast.error("Items not found for category");
+      }
+    } catch (error) {
+      console.error("Error fetching items by category:", error);
+      toast.error("Error fetching items by category");
+    }
+    setLoading(false);
+  }
+
   async function handleSearch() {
     if (searchName.trim() !== "") {
       await fetchItemsByName(searchName);
+    } else {
+      // Fetch all items if no name is provided
+      fetchAllItems();
+    }
+  }
+
+  async function handleCategoryChange(event) {
+    const category = event.target.value;
+    setSelectedCategory(category);
+
+    if (category === "") {
+      // If no category selected, show all items
+      fetchAllItems();
+    } else {
+      // Fetch items by selected category
+      await fetchItemsByCategory(category);
     }
   }
 
@@ -151,12 +191,40 @@ const Shop = () => {
         >
           Search
         </button>
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="ml-2 rounded border border-blue-gray-200 bg-transparent px-3 py-2 rounded-lg text-sm font-normal text-white outline outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+        >
+          <option value="" disabled>
+              Select a category
+            </option>
+            <option
+              value="Automobile"
+            >
+              Automobile
+            </option>
+            <option
+              value="Electronics"
+            >
+              Electronics
+            </option>
+            <option value="Furniture">Furniture</option>
+            <option
+              value="Action figures"
+            >
+              Action figures
+            </option>
+            <option
+              value="Vintage"
+            >
+              Vintage
+            </option>
+        </select>
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 pt-10">
-        {loading && (
-          <span className="loader "></span>
-        )}
+        {loading && <span className="loader "></span>}
         {!loading && fetchedItems.length > 0 && (
           <div className="flex flex-wrap justify-center gap-4">
             {fetchedItems.map((item) => (

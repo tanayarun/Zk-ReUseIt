@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assets/push.svg";
+import logo from "../../assets/logo2.png";
 import { ethers } from "ethers";
 import HoverBorderGradient from "../../Components/UI/Hover-border-gradient";
 import { NavLink } from "react-router-dom";
@@ -49,9 +49,9 @@ const Navbaar = () => {
 
   return (
     <div className="bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-lg backdrop-grayscale absolute top-0 right-0 text-white w-full h-[4rem]">
-      <div className="flex items-center justify-between px-[5rem] mt-2">
+      <div className="flex items-center justify-between pr-[5rem] mt-2">
         <NavLink to="/">
-          <img className="w-[40px]" src={logo} alt="Logo" />
+          <img className=" pl-10 w-[200px]" src={logo} alt="Logo" />
         </NavLink>
         <div className="flex justify-center items-center gap-6">
           <NavLink to="/buy">
