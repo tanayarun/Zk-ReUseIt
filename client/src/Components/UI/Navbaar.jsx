@@ -58,7 +58,7 @@ const Navbaar = () => {
             <HoverBorderGradient
               containerClassName="rounded-full"
               as="button"
-              className="bg-indigo-800 text-white flex items-center space-x-1 px-6 text-sm  "
+              className="bg-indigo-800 text-white flex items-center space-x-3 px-6 text-sm  "
             >
               <span className="text-lg">List Item</span>
             </HoverBorderGradient>
@@ -67,7 +67,7 @@ const Navbaar = () => {
             <HoverBorderGradient
               containerClassName="rounded-full"
               as="button"
-              className="bg-indigo-800 text-white flex items-center space-x-1 px-6 text-sm "
+              className="bg-indigo-800 text-white flex items-center space-x-3 px-6 text-sm "
             >
               <span className="text-lg">Go to shop</span>
             </HoverBorderGradient>
