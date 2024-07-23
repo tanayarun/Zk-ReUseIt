@@ -21,17 +21,16 @@ export function AuroraBackgroundDemo() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="relative flex flex-col gap-5 items-center justify-center px-5 mb-8"
+        className=" w-full flex flex-col gap-5 items-start justify-start ml-20 mb-8"
       >
         <img className="w-[30rem]" src={logo} alt="" />
         {/* <div className="text-3xl md:text-7xl font-bold text-white text-center">
           Zk-ReUseIt
         </div> */}
-        <div className="font-extralight text-base md:text-4xl text-neutral-200 py-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-          officiis quisquam
+        <div className="font-extralight text-base md:text-4xl text-neutral-200 py-4 ml-4">
+        Quality Pre-Owned Goods, Affordable Prices
         </div>
-        <div className="flex justify-center text-center">
+        <div className="flex justify-center text-center ml-4">
           <NavLink to="/shop">
             <HoverBorderGradient
               containerClassName="rounded-full"

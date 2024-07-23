@@ -51,14 +51,9 @@ const Navbaar = () => {
     <div className="bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-lg backdrop-grayscale absolute top-0 right-0 text-white w-full h-[4rem]">
       <div className="flex items-center justify-between pr-[5rem] mt-2">
         <NavLink to="/">
-          <img className=" pl-10 w-[200px]" src={logo} alt="Logo" />
+          <img className=" pl-5 w-[230px]" src={logo} alt="Logo" />
         </NavLink>
         <div className="flex justify-center items-center gap-6">
-          <NavLink to="/buy">
-            <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              Reclaim
-            </button>
-          </NavLink>
           <NavLink to="/list">
             <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-m px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               List Item

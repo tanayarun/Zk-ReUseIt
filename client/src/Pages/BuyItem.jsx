@@ -89,28 +89,28 @@ const BuyItem = () => {
 // call when user clicks on a button
 // onClick={getVerificationReq}
 
-  async function handleQRCode() {
-    try {
-      console.log('URL before fetch:', url); // Check if `url` is a string
+  // async function handleQRCode() {
+  //   try {
+  //     console.log('URL before fetch:', url); // Check if `url` is a string
   
-      const response = await fetch('http://localhost:5001/callback/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ requestUrl: url }), // Ensure url is a string
-      });
+  //     const response = await fetch('http://localhost:5001/callback/', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ requestUrl: url }), // Ensure url is a string
+  //     });
   
-      const result = await response.json();
-      if (result.success) {
-        console.log('Verification success', result.data);
-      } else {
-        console.error('Verification failed', result.error);
-      }
-    } catch (error) {
-      console.error('Error handling QR code request', error);
-    }
-  }
+  //     const result = await response.json();
+  //     if (result.success) {
+  //       console.log('Verification success', result.data);
+  //     } else {
+  //       console.error('Verification failed', result.error);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error handling QR code request', error);
+  //   }
+  // }
   
       
   return (
@@ -127,7 +127,7 @@ const BuyItem = () => {
         <QRCode value={url} />
       )}
     </div>
-    <button onClick={handleQRCode} className="text-white flex justify-center items-center w-full">verify</button>
+    {/* <button onClick={handleQRCode} className="text-white flex justify-center items-center w-full">verify</button> */}
     </div>
   );
 };

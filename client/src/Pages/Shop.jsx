@@ -5,7 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import MyContractABI from "../abis/abi.json";
 import Navbaar from "../Components/UI/Navbaar";
 import eth from "../assets/eth.png";
+import Modal from "react-modal";
 import "../index.css";
+import { Reclaim } from '@reclaimprotocol/js-sdk'
+import QRCode from "react-qr-code";
+
+Modal.setAppElement("#root"); // For accessibility reasons
 
 const contractABI = MyContractABI;
 const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
@@ -16,6 +21,8 @@ const Shop = () => {
   const [fetchedItems, setFetchedItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchAllItems();
@@ -214,6 +221,55 @@ const Shop = () => {
     );
   }
 
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+    setUrl("")
+  }
+
+  const [url, setUrl] = useState('')
+  
+  const APP_ID = "0x2E077cAa343478Bd397615FcdF89CaF61CdCEA15" //TODO: replace with your applicationId
+  const reclaimClient = new Reclaim.ProofRequest(APP_ID)
+ 
+  async function generateVerificationRequest() {
+    try {
+      const providerId = '1bba104c-f7e3-4b58-8b42-f8c0346cdeab'; // Replace with actual providerId
+  
+      reclaimClient.addContext(
+        ('user\'s address'), // Replace with actual user address
+        ('for acmecorp.com on 1st january')
+      );
+  
+      await reclaimClient.buildProofRequest(providerId);
+  
+      const signature = await reclaimClient.generateSignature(
+        '0x6f3aaaa76e9ceab76d04949ce2bd047977c162a0234eaa5d1999ecd70cb7229e'
+      );
+      reclaimClient.setSignature(signature);
+  
+      const { requestUrl, statusUrl } = await reclaimClient.createVerificationRequest();
+  
+      setUrl(requestUrl);
+  
+      await reclaimClient.startSession({
+        onSuccessCallback: proofs => {
+          setSuccessMessage('Verification successful!');
+          // Your business logic here
+        },
+        onFailureCallback: error => {
+          setSuccessMessage('Verification Failed!');
+          // Your business logic here to handle the error
+        }
+      });
+    } catch (error) {
+      console.error('Error in generateVerificationRequest:', error);
+    }
+  }
+
   return (
     <div className="p-4">
       <Navbaar />
@@ -268,14 +324,24 @@ const Shop = () => {
                 {formatItemName(item.name)}
                 <p className="text-lg">Category: {item.category}</p>
                 <p className="text-lg mt-1">{item.cost} ETH</p>
-                <button
-                  onClick={() => buyItem(item.id, item.cost)}
-                  className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
-                >
-                  <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Buy
-                  </span>
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => buyItem(item.id, item.cost)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
+                  >
+                    <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      Buy
+                    </span>
+                  </button>
+                  <button
+                    onClick={openModal}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
+                  >
+                    <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      Generate Proof
+                    </span>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -302,19 +368,60 @@ const Shop = () => {
                 <p className="text-lg mt-1 bg-gradient-to-r from-slate-300 to-slate-500 bg-clip-text text-transparent">
                   {item.cost} ETH
                 </p>
-                <button
-                  onClick={() => buyItem(item.id, item.cost)}
-                  className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
-                >
-                  <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Buy
-                  </span>
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => buyItem(item.id, item.cost)}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
+                  >
+                    <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      Buy
+                    </span>
+                  </button>
+                  <button
+                    onClick={openModal}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
+                  >
+                    <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      Generate Proof
+                    </span>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Proof Modal"
+        className="modal bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-0 border border-gray-100 p-20"
+        overlayClassName="overlay"
+      >
+        <button onClick={closeModal} type="button" class=" close-button mb-2 bg-white rounded-md p-1 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+              <span class="sr-only">Close menu</span>
+             
+              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+        {!url && (
+        <button className="text-white" onClick={generateVerificationRequest}>
+          Create Claim QrCode
+        </button>
+      )}
+      {url && (
+        <div>
+        <QRCode value={url} />
+        <div className="text-white flex justify-center items-center pt-3">Scan this to generate proof</div>
+        {successMessage && (
+        <div className="text-green-500 flex justify-center items-center pt-3">{successMessage}</div>
+      )}
+        </div>
+      )}
+      </Modal>
     </div>
   );
 };
