@@ -21,7 +21,7 @@ Polygon zkEVM: Polygon zkEVM leverages zero-knowledge proofs to enable scalable 
 
 Advantages of Decentralization: Decentralization offers numerous benefits, including enhanced privacy, reduced costs, and increased security. It eliminates the need for intermediaries, allowing for direct transactions between buyers and sellers, and mitigates risks associated with centralized control, such as censorship and data breaches.
 
-# Contract Address
+# Contract Address on Polygon zkEVM Cardona Testnet
 "0x3e8bfE7377dd7df1b98DeF3e8Ae68Bcf41d6465D"
 
 
