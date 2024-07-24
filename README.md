@@ -28,6 +28,9 @@ Advantages of Decentralization: Decentralization offers numerous benefits, inclu
 # Reclaim Protocol Track 👇
 ![image](https://github.com/user-attachments/assets/8be819be-70c6-4ec1-b59b-6744d159d4c7)
 
+![Screenshot (100)](https://github.com/user-attachments/assets/b8c72f6a-bba2-4ebc-a98a-876bd63391c7)
+
+
 ### 1.How novel and unique is the idea?
 -The idea is highly novel and unique, leveraging cutting-edge blockchain technologies like Reclaim Protocol and Polygon zkEVM to create a decentralized, secure, and low-cost resale platform that addresses key issues of privacy, data control, and high fees in current centralized platforms.
 ### 2.How well is the solution implemented? Is it functional and efficient?
