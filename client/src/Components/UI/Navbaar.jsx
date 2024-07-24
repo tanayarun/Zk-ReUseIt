@@ -51,7 +51,7 @@ const Navbaar = () => {
     <div className="bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-lg backdrop-grayscale absolute top-0 right-0 text-white w-full h-[4.3rem] border-b-2 border-b-blue-500">
       <div className="flex items-center justify-between pr-[5rem] mt-2">
         <NavLink to="/">
-          <img className=" pl-5 w-[230px]" src={logo} alt="Logo" />
+          <img className=" pl-5 w-[220px]" src={logo} alt="Logo" />
         </NavLink>
         <div className="flex justify-center items-center gap-6">
         <NavLink to="/list">
