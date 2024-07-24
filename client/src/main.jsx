@@ -7,17 +7,16 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Homepg from "./Pages/Homepg.jsx"
-import App from "./App.jsx";
+import Homepg from "./Pages/Homepg.jsx";
 import Shop from "./Pages/Shop.jsx";
 import Listing from "./Pages/Listing.jsx";
 import BuyItem from "./Pages/BuyItem.jsx";
 
+// Define the routes
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="" element={<Homepg />} /> 
-      <Route path="/app" element={<App />} /> 
+      <Route path="/" element={<Homepg />} />
       <Route path="/shop" element={<Shop />} />
       <Route path="/list" element={<Listing />} />
       <Route path="/buy" element={<BuyItem />} />
@@ -25,7 +24,7 @@ const router = createBrowserRouter(
   )
 );
 
-
+// Render the application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />

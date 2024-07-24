@@ -1,107 +1,133 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import MyContractABI from "../abis/abi.json";
 import Navbaar from "../Components/UI/Navbaar";
+import { Reclaim } from '@reclaimprotocol/js-sdk'
+import QRCode from "react-qr-code";
+
+const contractABI = MyContractABI;
+const contractAddress = "0x3e8bfE7377dd7df1b98DeF3e8Ae68Bcf41d6465D";
 
 const BuyItem = () => {
-  const [buyId, setbuyId] = useState("");
-  const [cost, setCost] = useState("");
 
-
-  const contractABI = MyContractABI;
-  const contractAddress = "0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8";
-
-  async function connectToMetamask() {
-    if (window.ethereum) {
-      try {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        return signer;
-      } catch (error) {
-        console.error("User denied account access");
-      }
-    } else {
-      console.error("Metamask is not installed");
-    }
-  }
-
-  async function buyItem(id, cost) {
-    const signer = await connectToMetamask();
-    if (!signer) return;
+  const [url, setUrl] = useState('')
   
-    const contract = new ethers.Contract(contractAddress, contractABI, signer);
-  
+  const APP_ID = "0x2E077cAa343478Bd397615FcdF89CaF61CdCEA15" //TODO: replace with your applicationId
+  const reclaimClient = new Reclaim.ProofRequest(APP_ID)
+ 
+  async function generateVerificationRequest() {
     try {
-      const tx = await contract.buy(id, { value: cost });
-      console.log("Transaction sent:", tx);
+      const providerId = '1bba104c-f7e3-4b58-8b42-f8c0346cdeab'; // Replace with actual providerId
   
-      const receipt = await tx.wait();
-      console.log("Transaction mined:", receipt);
+      reclaimClient.addContext(
+        ('user\'s address'), // Replace with actual user address
+        ('for acmecorp.com on 1st january')
+      );
   
-      // Listen for the ⁠ Buy ⁠ event
-      contract.on("Buy", (buyer, orderId, itemId) => {
-        console.log(` Item bought: Buyer = ${buyer}, Order ID = ${orderId}, Item ID = ${itemId} ⁠`)
+      await reclaimClient.buildProofRequest(providerId);
+  
+      const signature = await reclaimClient.generateSignature(
+        '0x6f3aaaa76e9ceab76d04949ce2bd047977c162a0234eaa5d1999ecd70cb7229e'
+      );
+      reclaimClient.setSignature(signature);
+  
+      const { requestUrl, statusUrl } = await reclaimClient.createVerificationRequest();
+  
+      setUrl(requestUrl);
+  
+      await reclaimClient.startSession({
+        onSuccessCallback: proofs => {
+          console.log('Verification success', proofs);
+          // Your business logic here
+        },
+        onFailureCallback: error => {
+          console.error('Verification failed', error);
+          // Your business logic here to handle the error
+        }
       });
     } catch (error) {
-      console.error("Error buying item:", error.message);
+      console.error('Error in generateVerificationRequest:', error);
     }
   }
+
+
+// Prototype
+
+
+// const getVerificationReq = async () => {
+//   const APP_ID = "0xe616742f289737681050cae4084e49E6847ddac6";
+//   const reclaimClient = new Reclaim.ProofRequest(APP_ID);
+
+//   const providerIds = [
+//   '5e1302ca-a3dd-4ef8-bc25-24fcc97dc800', // Aadhaar Card Date of Birth
+//   ];
+
+//   await reclaimClient.buildProofRequest(providerIds[0])
+
+//   const APP_SECRET ="0x8b6f43e1d1312dfbbc4c3ce82c59d1be7398c1d13b6f4de82c3e0b7b84cac5bb"  // your app secret key.
+//   reclaimClient.setSignature(
+//       await reclaimClient.generateSignature(APP_SECRET)
+//   )
+
+//   const { requestUrl, statusUrl } =
+//     await reclaimClient.createVerificationRequest()
+
+
+//   await reclaimClient.startSession({
+//     onSuccessCallback: proof => {
+//       console.log('Verification success', proof)
+//       // Your business logic here
+//     },
+//     onFailureCallback: error => {
+//       console.error('Verification failed', error)
+//       // Your business logic here to handle the error
+//     }
+//   })
+// };
+
+
+// call when user clicks on a button
+// onClick={getVerificationReq}
+
+  // async function handleQRCode() {
+  //   try {
+  //     console.log('URL before fetch:', url); // Check if `url` is a string
   
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    await buyItem(buyId, cost)
-
-    setbuyId("")
-    setCost("")
-
-    console.log("Bought")
-  };
-
+  //     const response = await fetch('http://localhost:5001/callback/', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ requestUrl: url }), // Ensure url is a string
+  //     });
+  
+  //     const result = await response.json();
+  //     if (result.success) {
+  //       console.log('Verification success', result.data);
+  //     } else {
+  //       console.error('Verification failed', result.error);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error handling QR code request', error);
+  //   }
+  // }
+  
+      
   return (
     <div>
-        <div><Navbaar /></div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-5 justify-center items-center pt-20"
-      >
-        <div className="relative flex h-10 w-full min-w-[200px] max-w-[24rem]">
-          <input
-            type="text"
-            className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-white outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-blue-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-            placeholder=" "
-            value={buyId}
-            onChange={(e) => setbuyId(e.target.value)}
-            required
-          />
-          <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-white transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-blue-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-blue-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-blue-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-            ID
-          </label>
-        </div>
+      <Navbaar />
 
-        <div className="relative flex h-10 w-full min-w-[200px] max-w-[24rem]">
-          <input
-            type="text"
-            className="peer h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-white outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-blue-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-            placeholder=" "
-            value={cost}
-            onChange={(e) => setCost(e.target.value)}
-            required
-          />
-          <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-white transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-blue-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-blue-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-blue-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-            Cost
-          </label>
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded"
-        >
-          Buy Item
+      <div className="mt-24"  style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50vh" }}>
+      {!url && (
+        <button className="text-white" onClick={generateVerificationRequest}>
+          Create Claim QrCode
         </button>
-      </form>
-
+      )}
+      {url && (
+        <QRCode value={url} />
+      )}
+    </div>
+    {/* <button onClick={handleQRCode} className="text-white flex justify-center items-center w-full">verify</button> */}
     </div>
   );
 };
