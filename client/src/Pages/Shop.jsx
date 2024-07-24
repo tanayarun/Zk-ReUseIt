@@ -324,7 +324,7 @@ const Shop = () => {
         <select
           value={selectedCategory}
           onChange={handleCategoryChange}
-          className="ml-2 rounded border border-blue-gray-200 bg-transparent px-3 py-2 rounded-lg text-sm font-normal text-white outline outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0"
+          className="ml-2 rounded border border-blue-gray-200 bg-transparent px-3 py-2 rounded-lg text-sm font-normal text-white outline outline-0 transition-all focus:border-2 focus:border-blue-500 focus:outline-0 bg-black text-white"
         >
           <option value="" disabled>
             Select a category
@@ -470,7 +470,7 @@ const Shop = () => {
               <input
                 type="text"
                 placeholder="Enter delivery address"
-                className="p-2 border border-gray-300 rounded w-full mb-4 bg-gray-800"
+                className="text-white p-2 border border-gray-300 rounded w-full mb-4 bg-gray-800"
                 value={deliveryAddress}
                 required
                 onChange={(e) => setDeliveryAddress(e.target.value)}
