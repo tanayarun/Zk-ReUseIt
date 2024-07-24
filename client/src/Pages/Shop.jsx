@@ -15,6 +15,7 @@ import bike from '../assets/bike.jpeg'
 import sofa from '../assets/sofa.png'
 import bat from '../assets/bat.jpeg'
 import af from '../assets/af.jpg'
+import ip from "../assets/ip.jpeg"
 
 Modal.setAppElement("#root"); 
 
@@ -40,6 +41,7 @@ const Shop = () => {
     4: sofa,
     5: bat,
     6: af,
+    7: ip
     // Add more mappings as needed
   };
 
