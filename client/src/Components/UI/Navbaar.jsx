@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
+const contractAddress = "0x7582993721F6EB18418D987221Ca5Aacb3246E6F";
 
 const Navbaar = () => {
   const [address, setAddress] = useState(null);

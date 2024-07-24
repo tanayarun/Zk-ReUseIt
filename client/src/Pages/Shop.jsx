@@ -10,10 +10,10 @@ import "../index.css";
 import { Reclaim } from '@reclaimprotocol/js-sdk'
 import QRCode from "react-qr-code";
 
-Modal.setAppElement("#root"); // For accessibility reasons
+Modal.setAppElement("#root"); 
 
 const contractABI = MyContractABI;
-const contractAddress = "0x654E671DBB480Dc3cC956Ee23C9A83163CeadE29";
+const contractAddress = "0x7582993721F6EB18418D987221Ca5Aacb3246E6F";
 
 const Shop = () => {
   const [searchName, setSearchName] = useState("");
