@@ -123,13 +123,13 @@ const Listing = () => {
               <option value="" disabled>
                 Select a category
               </option>
-              <option value="Automobile">Automobile</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Furniture">Furniture</option>
-              <option value="Action figures">Action figures</option>
-              <option value="Vintage">Vintage</option>
-              <option value="Sports">Sports</option>
-              <option value="Others">Others</option>
+              <option value="Automobile" className="bg-black text-white p-1">Automobile</option>
+              <option value="Electronics" className="bg-black text-white p-1">Electronics</option>
+              <option value="Furniture" className="bg-black text-white p-1">Furniture</option>
+              <option value="Action figures" className="bg-black text-white p-1">Action figures</option>
+              <option value="Vintage" className="bg-black text-white p-1">Vintage</option>
+              <option value="Sports" className="bg-black text-white p-1">Sports</option>
+              <option value="Others" className="bg-black text-white p-1">Others</option>
             </select>
           </div>
 
