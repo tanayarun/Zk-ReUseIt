@@ -23,6 +23,9 @@ const Shop = () => {
   const [loading, setLoading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [addressModalIsOpen, setAddressModalIsOpen] = useState(false);
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     fetchAllItems();
@@ -168,32 +171,34 @@ const Shop = () => {
   }
 
   async function buyItem(id, cost) {
+    setLoading(true); // Set loading to true before starting the transaction
     const signer = await connectToMetamask();
-    if (!signer) return;
-
+    if (!signer) {
+      setLoading(false); // Set loading to false if no signer is returned
+      return;
+    }
+  
     const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
+  
     try {
       const tx = await contract.buy(id, {
         value: ethers.utils.parseEther(cost),
       });
       console.log("Transaction sent:", tx);
-
-      const receipt = await tx.wait();
+  
+      const receipt = await tx.wait(); // Wait for the transaction to be mined
       console.log("Transaction mined:", receipt);
-
+  
       toast.success("Transaction successful!");
-
-      contract.on("Buy", (buyer, orderId, itemId) => {
-        console.log(
-          `Item bought: Buyer = ${buyer}, Order ID = ${orderId}, Item ID = ${itemId}`
-        );
-      });
+      toast.success("Your order will be delivered within 7 days");
     } catch (error) {
       console.error("Error buying item:", error.message);
       toast.error("Error buying item: " + error.message);
+    } finally {
+      setLoading(false); // Set loading to false after transaction is completed or if an error occurs
     }
   }
+  
 
   // Function to split the name and add description with reduced gap
   function formatItemName(name) {
@@ -268,6 +273,16 @@ const Shop = () => {
     } catch (error) {
       console.error('Error in generateVerificationRequest:', error);
     }
+  }
+
+  function openAddressModal(item) {
+    setSelectedItem(item);
+    setAddressModalIsOpen(true);
+  }
+
+  function closeAddressModal() {
+    setAddressModalIsOpen(false);
+    setDeliveryAddress("");
   }
 
   return (
@@ -370,7 +385,8 @@ const Shop = () => {
                 </p>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => buyItem(item.id, item.cost)}
+                    // onClick={() => buyItem(item.id, item.cost)}
+                    onClick={() => openAddressModal(item)}
                     className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 mt-3"
                   >
                     <span className="relative px-6 py-1.5 transition-all ease-in duration-75 bg-gray-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -397,7 +413,7 @@ const Shop = () => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Proof Modal"
-        className="modal bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-0 border border-gray-100 p-20"
+        className="modal bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-0 border border-gray-100 p-20 "
         overlayClassName="overlay"
       >
         <button onClick={closeModal} type="button" class=" close-button mb-2 bg-white rounded-md p-1 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -422,6 +438,50 @@ const Shop = () => {
         </div>
       )}
       </Modal>
+
+      <Modal
+            isOpen={addressModalIsOpen}
+            onRequestClose={closeAddressModal}
+            contentLabel="Enter Delivery Address Modal"
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75"
+          >
+            <form>
+            <div className="bg-black p-8 rounded-md shadow-md text-center cardd">
+              <h2 className="text-2xl font-semibold mb-4">
+                Enter Delivery Address
+              </h2>
+              <input
+                type="text"
+                placeholder="Enter delivery address"
+                className="p-2 border border-gray-300 rounded w-full mb-4 bg-gray-800"
+                value={deliveryAddress}
+                required
+                onChange={(e) => setDeliveryAddress(e.target.value)}
+              />
+              <button
+                className="px-4 py-2 bg-green-500 text-white rounded-3xl"
+                onClick={() => {
+                  if (!deliveryAddress.trim()) {
+                    toast.error("Please enter a delivery address.");
+                  } else if (!selectedItem) {
+                    toast.error("No item selected.");
+                  } else {
+                    buyItem(selectedItem.id, selectedItem.cost);
+                    closeAddressModal();
+                  }
+                }}
+              >
+                Place Order
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-3xl mt-4 ml-3"
+                onClick={closeAddressModal}
+              >
+                Cancel
+              </button>
+            </div>
+            </form>
+          </Modal>
     </div>
   );
 };
