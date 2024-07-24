@@ -237,22 +237,22 @@ const Shop = () => {
 
   const [url, setUrl] = useState('')
   
-  const APP_ID = "0x2E077cAa343478Bd397615FcdF89CaF61CdCEA15" //TODO: replace with your applicationId
+  const APP_ID = "0xdc7093e23DeCc442c52Ab51182fE452b0C3955F2" 
   const reclaimClient = new Reclaim.ProofRequest(APP_ID)
  
   async function generateVerificationRequest() {
     try {
-      const providerId = '1bba104c-f7e3-4b58-8b42-f8c0346cdeab'; // Replace with actual providerId
+      const providerId = '1bba104c-f7e3-4b58-8b42-f8c0346cdeab';
   
       reclaimClient.addContext(
-        ('user\'s address'), // Replace with actual user address
+        ('user\'s address'), 
         ('for acmecorp.com on 1st january')
       );
   
       await reclaimClient.buildProofRequest(providerId);
   
       const signature = await reclaimClient.generateSignature(
-        '0x6f3aaaa76e9ceab76d04949ce2bd047977c162a0234eaa5d1999ecd70cb7229e'
+        '0xea349edefacc4eaee64c63e917bcb62ff3280cc74d06d411ffbc5651bd9a9576'
       );
       reclaimClient.setSignature(signature);
   
@@ -263,11 +263,11 @@ const Shop = () => {
       await reclaimClient.startSession({
         onSuccessCallback: proofs => {
           setSuccessMessage('Verification successful!');
-          // Your business logic here
+     
         },
         onFailureCallback: error => {
           setSuccessMessage('Verification Failed!');
-          // Your business logic here to handle the error
+    
         }
       });
     } catch (error) {
