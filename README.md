@@ -30,7 +30,10 @@ Advantages of Decentralization: Decentralization offers numerous benefits, inclu
 - The solution is practically well-implemented, utilizing Reclaim Protocol for data sovereignty and Polygon zkEVM for scalable, secure transactions, indicating potential for high functionality and efficiency.
 ### 3. How effectively are Reclaim Protocol and ZKFetch integrated into the solution?
 - The given data highlights that Reclaim Protocol and Polygon zkEVM (referred to as ZKFetch) are core components of the solution, aiming to ensure user privacy, data sovereignty, scalable, and secure transactions.
-- The potential impact of the solution is significant, offering enhanced privacy, reduced costs, increased security, and a fairer marketplace by eliminating centralized intermediaries. The data does not specify whether the solution currently has non-zero users.
+### 4. What is the potential impact of the solution and does it have non-zero users.?
+- The potential impact of the solution is significant, offering enhanced privacy, reduced costs, increased security, by eliminating centralized intermediaries.
+### 5.How well is the project presented and demonstrated
+- We have tried our best , outlining the problems with current centralized resale platforms and how Zk-ReUseIt addresses these issues using Reclaim Protocol and Polygon zkEVM.
 
 
 # ⚡Deployed contract on Polygon zkEVM Cardona Testnet:
