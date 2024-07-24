@@ -1,7 +1,7 @@
 # Zk-ReUseIt
+![WhatsApp Image 2024-07-07 at 2 57 09 PM](https://github.com/user-attachments/assets/ce5d67ee-7d5a-4b23-8341-3ab39dbd0263)
 
 
-![download](https://github.com/user-attachments/assets/1ec33c44-f5b0-4009-bdc5-f1292fc1ec48)
 
 # 💡 *Problem Statement*
 
@@ -13,26 +13,27 @@ To address these issues, our project aims to build ZKREuseit, a decentralized ma
 
 # 🧠 *Knowledge Primer*
 
- Decentralized Marketplaces: Unlike traditional online marketplaces, decentralized marketplaces operate without a central authority. This means users have full control over their data and transactions, reducing the risks associated with central data storage and intermediaries.
+ Resale decentralised platform industry: Unlike traditional online marketplaces, decentralized marketplaces operate without a central authority. This means users have full control over their data and transactions, reducing the risks associated with central data storage and intermediaries.
 
 Reclaim Protocol: The Reclaim Protocol is designed to give users control over their data. It ensures privacy and data sovereignty by allowing users to manage and share their data securely and selectively, without relying on centralized entities.
 
-Polygon zkEVM: Polygon zkEVM leverages zero-knowledge proofs to enable scalable and secure transactions on the blockchain. It enhances the efficiency and cost-effectiveness of the decentralized marketplace by reducing transaction fees and ensuring high levels of security and privacy.
+Polygon zkEVM: Polygon zkEVM leverages zero-knowledge proofs to enable scalable and secure transactions on the blockchain. It enhances the efficiency and cost-effectiveness of the Resale decentralised platform industry by reducing transaction fees and ensuring high levels of security and privacy.
 
 Advantages of Decentralization: Decentralization offers numerous benefits, including enhanced privacy, reduced costs, and increased security. It eliminates the need for intermediaries, allowing for direct transactions between buyers and sellers, and mitigates risks associated with centralized control, such as censorship and data breaches.
+
+# ⚡Deployed contract on Polygon zkEVM Cardona Testnet:
+
+![Screenshot 2024-07-24 175616](https://github.com/user-attachments/assets/6d029ec4-e13e-4bac-b9f8-84b6dba32b2f)
 
 # 💻 *Tech Stack*
 
 - Reclaim Protocol
-- Solidity 
+- Polygon zkEVM Cardona 
+- Solidity
+- Ether.Js
 - React
 - ExpressJS
-- Acertinity UI
+- Tailwind CSS
 - NodeJS
-- Polygon Zkevm
 
-# 💥 *Contributors*
 
-<a href="https://github.com/tanayarun/Zk-ReUseIt/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=AnikethDeb2004/Zk-ReUseIt" alt="Contributors">
-</a>
