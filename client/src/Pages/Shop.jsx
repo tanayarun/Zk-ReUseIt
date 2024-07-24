@@ -9,6 +9,12 @@ import Modal from "react-modal";
 import "../index.css";
 import { Reclaim } from '@reclaimprotocol/js-sdk'
 import QRCode from "react-qr-code";
+import camaro from '../assets/camaro.jpg'
+import mac from '../assets/macbook.jpg'
+import bike from '../assets/bike.jpeg'
+import sofa from '../assets/sofa.png'
+import bat from '../assets/bat.jpeg'
+import af from '../assets/af.jpg'
 
 Modal.setAppElement("#root"); 
 
@@ -26,6 +32,16 @@ const Shop = () => {
   const [addressModalIsOpen, setAddressModalIsOpen] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const imageMapping = {
+    1: camaro,
+    2: mac,
+    3: bike,
+    4: sofa,
+    5: bat,
+    6: af,
+    // Add more mappings as needed
+  };
 
   useEffect(() => {
     fetchAllItems();
@@ -202,7 +218,8 @@ const Shop = () => {
 
   // Function to split the name and add description with reduced gap
   function formatItemName(name) {
-    const [firstWord, ...rest] = name.split(" ");
+    const formattedName = name.replace(/^Macbbok/, 'Macbook');
+    const [firstWord, ...rest] = formattedName.split(" ");
     const description = rest.join(" ");
     return (
       <>
@@ -322,19 +339,19 @@ const Shop = () => {
         </select>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 pt-10">
+      <div className="flex flex-wrap justify-center gap-4 pt-3">
         {loading && <span className="loader "></span>}
         {!loading && fetchedItems.length > 0 && (
           <div className="flex flex-wrap justify-center gap-4">
             {fetchedItems.map((item) => (
               <div
                 key={item.id}
-                className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center"
+                className="text-white cardd p-4 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center"
               >
                 <img
-                  src={eth}
+                  src={imageMapping[item.id] || eth}
                   alt="Sample"
-                  className="w-20 object-cover mb-4 rounded"
+                  className="w-60 object-cover mb-2 rounded"
                 />
                 {formatItemName(item.name)}
                 <p className="text-lg">Category: {item.category}</p>
@@ -366,12 +383,12 @@ const Shop = () => {
             {allItems.map((item) => (
               <div
                 key={item.id}
-                className="text-white cardd p-6 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center"
+                className="text-white cardd p-4 rounded-lg shadow-lg max-w-sm flex flex-col justify-center items-center"
               >
                 <img
-                  src={eth}
+                  src={imageMapping[item.id] || eth}
                   alt="Sample"
-                  className="w-20 object-cover mb-4 rounded"
+                  className="w-60 object-cover mb-2 rounded"
                 />
                 {formatItemName(item.name)}
                 <p className="text-lg bg-gradient-to-r from-slate-300 to-slate-500 bg-clip-text text-transparent">
