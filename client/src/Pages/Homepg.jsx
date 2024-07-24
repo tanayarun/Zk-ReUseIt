@@ -14,6 +14,7 @@ import TextGenerateEffect2 from "../Components/TextGenerateEffect2.jsx";
 const words = `Harnessing the power of polygon zkEVM cardona and reclaim protocol`
 const words2 = ` Buy second hand product,`
 const words3 = ` good as new in affordable prices`
+const words4 = ` Revolutionizing the resale market with Zero-Knowledge Proofs`
 
 export function AuroraBackgroundDemo() {
   return (
@@ -31,9 +32,9 @@ export function AuroraBackgroundDemo() {
         }}
         className=" w-full flex flex-col gap-5 items-start justify-start ml-20 mb-8"
       >
-        <div className="flex mt-28 gap-10">
+        <div className="flex mt-20 gap-10">
           <div>
-        <img className="w-[30rem]" src={logo} alt="" />
+        <img className="w-[29rem]" src={logo} alt="" />
         {/* <div className="text-3xl md:text-7xl font-bold text-white text-center">
           Zk-ReUseIt
         </div> */}
@@ -41,6 +42,7 @@ export function AuroraBackgroundDemo() {
          <TextGenerateEffect words={words2} />
          <TextGenerateEffect words={words3} />
          <TextGenerateEffect2 words={words} />
+         <TextGenerateEffect2 words={words4} />
         </div>
         <div className="flex justify-start text-center ml-4 w-full">
           <NavLink to="/shop">

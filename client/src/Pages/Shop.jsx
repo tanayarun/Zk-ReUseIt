@@ -329,13 +329,13 @@ const Shop = () => {
           <option value="" disabled>
             Select a category
           </option>
-          <option value="Automobile">Automobile</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Action figures">Action figures</option>
-          <option value="Vintage">Vintage</option>
-          <option value="Sports">Sports</option>
-          <option value="Others">Others</option>
+          <option value="Automobile" className="bg-black text-white">Automobile</option>
+          <option value="Electronics" className="bg-black text-white">Electronics</option>
+          <option value="Furniture" className="bg-black text-white">Furniture</option>
+          <option value="Action figures" className="bg-black text-white">Action figures</option>
+          <option value="Vintage" className="bg-black text-white">Vintage</option>
+          <option value="Sports" className="bg-black text-white">Sports</option>
+          <option value="Others" className="bg-black text-white">Others</option>
         </select>
       </div>
 
