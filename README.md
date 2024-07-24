@@ -44,7 +44,6 @@ Advantages of Decentralization: Decentralization offers numerous benefits, inclu
 - Solidity
 - Ether.Js
 - React
-- ExpressJS
 - Tailwind CSS
 - NodeJS
 
